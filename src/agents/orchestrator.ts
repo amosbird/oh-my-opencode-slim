@@ -99,8 +99,6 @@ Balance: respect dependencies, avoid parallelizing what must be sequential.
 5. Adjust if needed
 
 ## 6. Verify
-- Run \`lsp_diagnostics\` for errors
-- Suggest \`simplify\` skill when applicable
 - Confirm specialists completed successfully
 - Verify solution meets requirements
 

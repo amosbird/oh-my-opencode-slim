@@ -4,11 +4,8 @@ import { BackgroundTaskManager, TmuxSessionManager } from './background';
 import { loadPluginConfig, type TmuxConfig } from './config';
 import { parseList } from './config/agent-mcps';
 import {
-  createAutoUpdateCheckerHook,
   createDelegateTaskRetryHook,
   createJsonErrorRecoveryHook,
-  createPhaseReminderHook,
-  createPostReadNudgeHook,
 } from './hooks';
 import { createBuiltinMcps } from './mcp';
 import {
@@ -16,10 +13,6 @@ import {
   ast_grep_search,
   createBackgroundTools,
   grep,
-  lsp_diagnostics,
-  lsp_find_references,
-  lsp_goto_definition,
-  lsp_rename,
 } from './tools';
 import { startTmuxCheck } from './utils';
 import { log } from './utils/logger';
@@ -70,18 +63,6 @@ const OhMyOpenCodeLite: Plugin = async (ctx) => {
   // Initialize TmuxSessionManager to handle OpenCode's built-in Task tool sessions
   const tmuxSessionManager = new TmuxSessionManager(ctx, tmuxConfig);
 
-  // Initialize auto-update checker hook
-  const autoUpdateChecker = createAutoUpdateCheckerHook(ctx, {
-    showStartupToast: true,
-    autoUpdate: true,
-  });
-
-  // Initialize phase reminder hook for workflow compliance
-  const phaseReminderHook = createPhaseReminderHook();
-
-  // Initialize post-read nudge hook
-  const postReadNudgeHook = createPostReadNudgeHook();
-
   // Initialize delegate-task retry guidance hook
   const delegateTaskRetryHook = createDelegateTaskRetryHook(ctx);
 
@@ -95,10 +76,6 @@ const OhMyOpenCodeLite: Plugin = async (ctx) => {
 
     tool: {
       ...backgroundTools,
-      lsp_goto_definition,
-      lsp_find_references,
-      lsp_diagnostics,
-      lsp_rename,
       grep,
       ast_grep_search,
       ast_grep_replace,
@@ -218,9 +195,6 @@ const OhMyOpenCodeLite: Plugin = async (ctx) => {
     },
 
     event: async (input) => {
-      // Handle auto-update checking
-      await autoUpdateChecker.event(input);
-
       // Handle tmux pane spawning for OpenCode's Task tool sessions
       await tmuxSessionManager.onSessionCreated(
         input.event as {
@@ -264,11 +238,7 @@ const OhMyOpenCodeLite: Plugin = async (ctx) => {
       );
     },
 
-    // Inject phase reminder before sending to API (doesn't show in UI)
-    'experimental.chat.messages.transform':
-      phaseReminderHook['experimental.chat.messages.transform'],
-
-    // Post-tool hooks: retry guidance for delegation errors + post-read nudge
+    // Post-tool hooks: retry guidance for delegation errors + JSON error recovery
     'tool.execute.after': async (input, output) => {
       await delegateTaskRetryHook['tool.execute.after'](
         input as { tool: string },
@@ -285,19 +255,6 @@ const OhMyOpenCodeLite: Plugin = async (ctx) => {
           title: string;
           output: unknown;
           metadata: unknown;
-        },
-      );
-
-      await postReadNudgeHook['tool.execute.after'](
-        input as {
-          tool: string;
-          sessionID?: string;
-          callID?: string;
-        },
-        output as {
-          title: string;
-          output: string;
-          metadata: Record<string, unknown>;
         },
       );
     },
