@@ -20,7 +20,7 @@ import type {
   OpenCodeConfig,
 } from './types';
 
-const PACKAGE_NAME = 'oh-my-opencode-slim';
+const PACKAGE_NAME = '@amosbird/oh-my-opencode-slim';
 
 /**
  * Strip JSON comments (single-line // and multi-line) and trailing commas for JSONC support.

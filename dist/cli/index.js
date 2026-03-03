@@ -14262,7 +14262,7 @@ function generateLiteConfig(installConfig) {
 }
 
 // src/cli/config-io.ts
-var PACKAGE_NAME = "oh-my-opencode-slim";
+var PACKAGE_NAME = "@amosbird/oh-my-opencode-slim";
 function stripJsonComments(json2) {
   const commentPattern = /\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g;
   const trailingCommaPattern = /\\"|"(?:\\"|[^"])*"|(,)(\s*[}\]])/g;
