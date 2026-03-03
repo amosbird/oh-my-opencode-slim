@@ -27,14 +27,7 @@ export interface CustomSkill {
 /**
  * Registry of custom skills bundled in this repository.
  */
-export const CUSTOM_SKILLS: CustomSkill[] = [
-  {
-    name: 'cartography',
-    description: 'Repository understanding and hierarchical codemap generation',
-    allowedAgents: ['orchestrator', 'explorer'],
-    sourcePath: 'src/skills/cartography',
-  },
-];
+export const CUSTOM_SKILLS: CustomSkill[] = [];
 
 /**
  * Get the target directory for custom skills installation.
