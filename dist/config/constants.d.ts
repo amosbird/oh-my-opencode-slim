@@ -1,0 +1,14 @@
+export declare const AGENT_ALIASES: Record<string, string>;
+export declare const SUBAGENT_NAMES: readonly ["explorer", "librarian", "oracle", "designer", "fixer"];
+export declare const ORCHESTRATOR_NAME: "orchestrator";
+export declare const ALL_AGENT_NAMES: readonly ["orchestrator", "explorer", "librarian", "oracle", "designer", "fixer"];
+export type AgentName = (typeof ALL_AGENT_NAMES)[number];
+export declare const SUBAGENT_DELEGATION_RULES: Record<AgentName, readonly string[]>;
+export declare const DEFAULT_MODELS: Record<AgentName, string | undefined>;
+export declare const POLL_INTERVAL_MS = 500;
+export declare const POLL_INTERVAL_SLOW_MS = 1000;
+export declare const POLL_INTERVAL_BACKGROUND_MS = 2000;
+export declare const DEFAULT_TIMEOUT_MS: number;
+export declare const MAX_POLL_TIME_MS: number;
+export declare const FALLBACK_FAILOVER_TIMEOUT_MS = 15000;
+export declare const STABLE_POLLS_THRESHOLD = 3;
