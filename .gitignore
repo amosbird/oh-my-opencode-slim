@@ -71,3 +71,5 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+*.tgz
+package-lock.json
